@@ -1,5 +1,6 @@
 package com.example.teddywyly.simpletodo;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -21,13 +22,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements EditTodoItemDialog.EditTodoItemDialogListener {
 
-    private ArrayList<String> todoItems;
-    private ArrayAdapter<String> aTodoItems;
+    private ArrayList<TodoItem> todoItems = new ArrayList<TodoItem>();
+    private ToDoAdapter aTodoItems;
     private ListView lvItems;
     private EditText etNewItem;
     private int editIndex;
+
+    private TodoItemDatabase db;
 
     private final int EDIT_ITEM_CODE = 20;
 
@@ -38,8 +41,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         etNewItem = (EditText)findViewById(R.id.etNewItem);
         lvItems= (ListView)findViewById(R.id.lvItems);
+        db = new TodoItemDatabase(this);
         readItems();
-        aTodoItems = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoItems);
+        aTodoItems = new ToDoAdapter(this, todoItems);
         lvItems.setAdapter(aTodoItems);
         setupListViewListeners();
     }
@@ -48,9 +52,11 @@ public class MainActivity extends ActionBarActivity {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TodoItem item = todoItems.get(i);
                 todoItems.remove(i);
                 aTodoItems.notifyDataSetChanged();
-                writeItems();
+                db.deleteTodoItem(item);
+//                writeItems();
                 return true;
             }
         });
@@ -65,70 +71,43 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void launchEditView(int index) {
-        Intent i = new Intent(MainActivity.this, EditItemActivity.class);
-        i.putExtra("item", aTodoItems.getItem(index));
-        editIndex = index;
-        startActivityForResult(i, EDIT_ITEM_CODE);
+        FragmentManager fm = getFragmentManager();
+        EditTodoItemDialog editItemDialog = EditTodoItemDialog.newInstance("Some Title");
+        editItemDialog.itemString = aTodoItems.getItem(index).getBody();
+        editItemDialog.show(fm, "fragment_edit_item");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == EDIT_ITEM_CODE) {
-            String item = data.getExtras().getString("item");
-            todoItems.set(editIndex, item);
-            aTodoItems.notifyDataSetChanged();
-            writeItems();
+//            TodoItem item = data.getExtras().getString("item");
+//            todoItems.set(editIndex, item);
+//            aTodoItems.notifyDataSetChanged();
+//            db.updateTodoItem(item);
         }
     }
 
     private void readItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            todoItems = new ArrayList<String>(FileUtils.readLines(todoFile));
-        } catch (IOException e) {
-            todoItems = new ArrayList<String>();
-        }
+
+        todoItems = new ArrayList<TodoItem>(db.getAllTodoItems());
     }
 
-    private void writeItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            FileUtils.writeLines(todoFile, todoItems);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public void onAddedItem(View view) {
-        String itemText = etNewItem.getText().toString();
-        aTodoItems.add(itemText);
-        etNewItem.setText("");
-        // Scroll to bottom
-        lvItems.setSelection(aTodoItems.getCount()-1);
-        writeItems();
+        String text = etNewItem.getText().toString();
+        if (text != null && !text.isEmpty()) {
+            TodoItem item = new TodoItem(text, 1);
+            aTodoItems.add(item);
+            etNewItem.setText("");
+            // Scroll to bottom
+            lvItems.setSelection(aTodoItems.getCount()-1);
+            db.addToDoItem(item);
+        }
+    }
+
+    @Override
+    public void onFinishEditTodoItemName(String itemName) {
+
     }
 }

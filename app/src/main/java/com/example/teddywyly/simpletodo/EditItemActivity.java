@@ -32,12 +32,11 @@ public class EditItemActivity extends ActionBarActivity {
 
     private void setupEditText() {
         etEditItem = (EditText)findViewById(R.id.etEditItem);
-        String item = getIntent().getStringExtra("item");
-        etEditItem.setText(item);
-        etEditItem.setSelection(item.length());
+//        String item = getIntent().getStringExtra("item");
+        TodoItem item = (TodoItem)getIntent().getSerializableExtra("item");
+        etEditItem.setText(item.getBody());
+        etEditItem.setSelection(item.getBody().length());
         etEditItem.requestFocus();
-//        InputMethodManager mgr = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-//        mgr.showSoftInput(etEditItem, InputMethodManager.SHOW_IMPLICIT);
     }
 
     @Override
