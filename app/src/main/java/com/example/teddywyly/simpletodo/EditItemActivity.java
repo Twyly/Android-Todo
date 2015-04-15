@@ -1,11 +1,13 @@
 package com.example.teddywyly.simpletodo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 
@@ -24,10 +26,18 @@ public class EditItemActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_edit_item, menu);
+        setupEditText();
+        return true;
+    }
+
+    private void setupEditText() {
         etEditItem = (EditText)findViewById(R.id.etEditItem);
         String item = getIntent().getStringExtra("item");
         etEditItem.setText(item);
-        return true;
+        etEditItem.setSelection(item.length());
+        etEditItem.requestFocus();
+//        InputMethodManager mgr = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+//        mgr.showSoftInput(etEditItem, InputMethodManager.SHOW_IMPLICIT);
     }
 
     @Override

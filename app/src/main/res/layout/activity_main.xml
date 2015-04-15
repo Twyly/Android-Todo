@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/lvItems"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/etNewItem" />
+        android:layout_above="@+id/etNewItem"
+        android:layout_alignParentTop="true" />
 
     <EditText
         android:layout_width="wrap_content"

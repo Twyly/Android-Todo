@@ -1,17 +1,23 @@
 # Android-Todo
-This is an Android demo application for displaying the latest box office movies using the RottenTomatoes API. See the RottenTomatoes Networking Tutorial on our cliffnotes for a step-by-step tutorial.
+
+(Sample of your weekly project submission README)
+
+This is an Android demo application for displaying the latest box office movies using the [RottenTomatoes API](http://www.rottentomatoes.com/). See the [RottenTomatoes Networking Tutorial](http://guides.thecodepath.com/android/RottenTomatoes-Networking-Tutorial) on our cliffnotes for a step-by-step tutorial.
 
 Time spent: 5 hours spent in total
 
 Completed user stories:
 
- Required: User can view a list of latest box office movies including title, cast and tomatoes rating
- Required: User can click on a movie in the list to bring up a details page with additional information such as synopsis
- Optional: Placeholder image is used for movie posters loaded in from the network
+* [x] Required: User can view a list of latest box office movies including title, cast and tomatoes rating
+* [x] Required: User can click on a movie in the list to bring up a details page with additional information such as synopsis
+* [x] Optional: Placeholder image is used for movie posters loaded in from the network
+
 Notes:
 
 Spent some time making the UI work across multiple phone resolutions by playing around with the RelativeLayout.
 
 Walkthrough of all user stories:
 
-GIF created with LiceCap.
+![Video Walkthrough](todoExample.gif)
+
+GIF created with [Licecap](http://www.cockos.com/licecap/)..

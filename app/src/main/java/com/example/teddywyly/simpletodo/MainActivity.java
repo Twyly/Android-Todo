@@ -38,19 +38,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         etNewItem = (EditText)findViewById(R.id.etNewItem);
         lvItems= (ListView)findViewById(R.id.lvItems);
-        //populateArrayItems();
         readItems();
         aTodoItems = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoItems);
         lvItems.setAdapter(aTodoItems);
         setupListViewListeners();
     }
-//
-//    public void populateArrayItems() {
-//        todoItems = new ArrayList<String>();
-//        todoItems.add("Item 1");
-//        todoItems.add("Item 2");
-//        todoItems.add("Item 3");
-//    }
 
     public void setupListViewListeners() {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -85,7 +77,6 @@ public class MainActivity extends ActionBarActivity {
             String item = data.getExtras().getString("item");
             todoItems.set(editIndex, item);
             aTodoItems.notifyDataSetChanged();
-            Toast.makeText(this, item, Toast.LENGTH_SHORT).show();
             writeItems();
         }
     }
@@ -136,6 +127,8 @@ public class MainActivity extends ActionBarActivity {
         String itemText = etNewItem.getText().toString();
         aTodoItems.add(itemText);
         etNewItem.setText("");
+        // Scroll to bottom
+        lvItems.setSelection(aTodoItems.getCount()-1);
         writeItems();
     }
 }
