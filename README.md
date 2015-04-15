@@ -1,22 +1,26 @@
-# Android-Todo
+# Android Todo List
 
-(Sample of your weekly project submission README)
+This is an Android demo application for [CodePath](https://codepath.com).
 
-This is an Android demo application for displaying the latest box office movies using the [RottenTomatoes API](http://www.rottentomatoes.com/). See the [RottenTomatoes Networking Tutorial](http://guides.thecodepath.com/android/RottenTomatoes-Networking-Tutorial) on our cliffnotes for a step-by-step tutorial.
+Time spent: 3 hours spent in total
 
-Time spent: 5 hours spent in total
+Checklist (Tasks that are not completed are **IN PROGRESS**):
 
-Completed user stories:
+* [x] Add and remove items from the todo list
+* [x] Editing items in list
+* [x] Persist items over applicaiton launches
+* [x] Code is pushed to github
+* [x] You are reading the README (with GIF) ;)
+* [x] Issue added to the repo including /cc @codepathreview @codepath in the issue body 
 
-* [x] Required: User can view a list of latest box office movies including title, cast and tomatoes rating
-* [x] Required: User can click on a movie in the list to bring up a details page with additional information such as synopsis
-* [x] Optional: Placeholder image is used for movie posters loaded in from the network
+* [ ] Persist the todo items into SQLite instead of a text file
+* [ ] Improve style of the todo items in the list using a custom adapter
+* [ ] Add support for completion due dates for todo items (and display within listview item)
+* [ ] Use a DialogFragment instead of new Activity for editing items
+* [ ] Add support for selecting the priority of each todo item (and display in listview item)
+* [ ] Tweak the style improving the UI / UX, play with colors, images or backgrounds 
+* [ ] Extra Curricular 
 
-Notes:
-
-Spent some time making the UI work across multiple phone resolutions by playing around with the RelativeLayout.
-
-Walkthrough of all user stories:
 
 ![Video Walkthrough](todoExample.gif)
 
