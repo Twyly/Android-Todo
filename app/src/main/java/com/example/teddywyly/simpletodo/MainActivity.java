@@ -30,7 +30,6 @@ public class MainActivity extends ActionBarActivity implements EditTodoItemDialo
     private ListView lvItems;
     private EditText etNewItem;
     private int editIndex;
-
     private TodoItemDatabase db;
 
 
@@ -62,13 +61,13 @@ public class MainActivity extends ActionBarActivity implements EditTodoItemDialo
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                launchEditView(i);
+                launchEditFragment(i);
             }
         });
 
     }
 
-    private void launchEditView(int index) {
+    private void launchEditFragment(int index) {
         FragmentManager fm = getFragmentManager();
         editIndex = index;
         EditTodoItemDialog editItemDialog = EditTodoItemDialog.newInstance("Some Title");
@@ -92,7 +91,6 @@ public class MainActivity extends ActionBarActivity implements EditTodoItemDialo
             db.addToDoItem(item);
         }
     }
-
     // Maybe better to have fragment change ToDo item model?
     @Override
     public void onFinishEditTodoItemName(String itemName, int priority) {

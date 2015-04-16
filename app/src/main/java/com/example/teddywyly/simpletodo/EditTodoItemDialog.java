@@ -20,7 +20,7 @@ import android.widget.TextView;
 /**
  * Created by teddywyly on 4/15/15.
  */
-public class EditTodoItemDialog extends DialogFragment implements TextView.OnEditorActionListener {
+public class EditTodoItemDialog extends DialogFragment {
 
     private EditText mEditText;
     private RatingBar mRatingBar;
@@ -46,35 +46,37 @@ public class EditTodoItemDialog extends DialogFragment implements TextView.OnEdi
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_edit_item, container);
-        mEditText = (EditText) view.findViewById(R.id.txt_your_name);
-        mRatingBar = (RatingBar) view.findViewById(R.id.rb_priority);
-        mRatingBar.setRating(item.getPriority()+1);
-        Button saveButton = (Button) view.findViewById(R.id.btn_Accept);
-        mEditText.setText(item.getBody());
-        mEditText.requestFocus();
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        mEditText.setOnEditorActionListener(this);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditTodoItemDialogListener listener = (EditTodoItemDialogListener) getActivity();
-                listener.onFinishEditTodoItemName(mEditText.getText().toString(), (int)mRatingBar.getRating()-1);
-                dismiss();
-            }
-        });
-
+        setupRatingBar(view);
+        setupEditText(view);
+        setupSaveButton(view);
 
         return view;
     }
 
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (EditorInfo.IME_ACTION_DONE == actionId) {
-            // Return input text to activity
-            dismiss();
-            return true;
-        }
-        return false;
+    public void setupRatingBar(View view) {
+        mRatingBar = (RatingBar) view.findViewById(R.id.rb_priority);
+        mRatingBar.setRating(item.getPriority()+1);
     }
 
+    public void setupEditText(View view) {
+        mEditText = (EditText) view.findViewById(R.id.txt_your_name);
+        mEditText.setText(item.getBody());
+        mEditText.requestFocus();
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+
+    public void setupSaveButton(View view) {
+        Button saveButton = (Button) view.findViewById(R.id.btn_Accept);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = mEditText.getText().toString();
+                if (!text.isEmpty()) {
+                    EditTodoItemDialogListener listener = (EditTodoItemDialogListener) getActivity();
+                    listener.onFinishEditTodoItemName(text, (int)mRatingBar.getRating()-1);
+                    dismiss();
+                }
+            }
+        });
+    }
 }
