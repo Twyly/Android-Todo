@@ -1,6 +1,7 @@
 package com.example.teddywyly.simpletodo;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,10 @@ import java.util.ArrayList;
  */
 public class ToDoAdapter extends ArrayAdapter<TodoItem> {
 
-
+    //ViewHolder Pattern and ReuseIdentifier have same purpose
     private static class ViewHolder {
         TextView name;
-        TextView body;
+        TextView rank;
     }
 
     public ToDoAdapter(Context context, ArrayList<TodoItem> items) {
@@ -28,7 +29,6 @@ public class ToDoAdapter extends ArrayAdapter<TodoItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         TodoItem todoItem = getItem(position);
-
         ViewHolder viewHolder;
 
         if (convertView == null) {
@@ -36,15 +36,32 @@ public class ToDoAdapter extends ArrayAdapter<TodoItem> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_todo, parent, false);
             viewHolder.name = (TextView) convertView.findViewById(R.id.tvName);
-            viewHolder.body = (TextView) convertView.findViewById(R.id.tvHome);
+            viewHolder.rank = (TextView) convertView.findViewById(R.id.tvRank);
+            viewHolder.name.setTextColor(Color.WHITE);
+            viewHolder.rank.setTextColor(Color.WHITE);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         viewHolder.name.setText(todoItem.getBody());
-        viewHolder.body.setText(todoItem.getBody());
-
+        switch (todoItem.getPriority()) {
+            case 0:
+                viewHolder.rank.setText("Garfield Status");
+                convertView.setBackgroundColor(Color.LTGRAY);
+                break;
+            case 1:
+                viewHolder.rank.setText("Normal");
+                convertView.setBackgroundColor(Color.BLUE);
+                break;
+            case 2:
+                viewHolder.rank.setText("Do Now!");
+                convertView.setBackgroundColor(Color.RED);
+                break;
+            default:
+                viewHolder.rank.setText("Unknown");
+                break;
+        }
         return convertView;
     }
 

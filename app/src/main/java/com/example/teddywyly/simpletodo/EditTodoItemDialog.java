@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 /**
@@ -21,10 +23,12 @@ import android.widget.TextView;
 public class EditTodoItemDialog extends DialogFragment implements TextView.OnEditorActionListener {
 
     private EditText mEditText;
-    public String itemString;
+    private RatingBar mRatingBar;
+    // Pardon the breaking of MVC here but this just makes sense to me..
+    public TodoItem item;
 
     public interface EditTodoItemDialogListener {
-        void onFinishEditTodoItemName(String itemName);
+        void onFinishEditTodoItemName(String itemName, int priority);
     }
 
     public EditTodoItemDialog() {}
@@ -43,17 +47,18 @@ public class EditTodoItemDialog extends DialogFragment implements TextView.OnEdi
 
         View view = inflater.inflate(R.layout.fragment_edit_item, container);
         mEditText = (EditText) view.findViewById(R.id.txt_your_name);
+        mRatingBar = (RatingBar) view.findViewById(R.id.rb_priority);
+        mRatingBar.setRating(item.getPriority()+1);
         Button saveButton = (Button) view.findViewById(R.id.btn_Accept);
-        String title = getArguments().getString("title", "Enter Name");
-        getDialog().setTitle(title);
-        mEditText.setText(itemString);
+        mEditText.setText(item.getBody());
         mEditText.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         mEditText.setOnEditorActionListener(this);
-
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                EditTodoItemDialogListener listener = (EditTodoItemDialogListener) getActivity();
+                listener.onFinishEditTodoItemName(mEditText.getText().toString(), (int)mRatingBar.getRating()-1);
                 dismiss();
             }
         });
@@ -72,9 +77,4 @@ public class EditTodoItemDialog extends DialogFragment implements TextView.OnEdi
         return false;
     }
 
-    public void onEditSaved(View view) {
-        EditTodoItemDialogListener listener = (EditTodoItemDialogListener) getActivity();
-        listener.onFinishEditTodoItemName(mEditText.getText().toString());
-        dismiss();
-    }
 }

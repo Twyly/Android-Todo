@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.internal.widget.AdapterViewCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,8 +33,6 @@ public class MainActivity extends ActionBarActivity implements EditTodoItemDialo
 
     private TodoItemDatabase db;
 
-    private final int EDIT_ITEM_CODE = 20;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public class MainActivity extends ActionBarActivity implements EditTodoItemDialo
                 todoItems.remove(i);
                 aTodoItems.notifyDataSetChanged();
                 db.deleteTodoItem(item);
-//                writeItems();
                 return true;
             }
         });
@@ -72,23 +70,14 @@ public class MainActivity extends ActionBarActivity implements EditTodoItemDialo
 
     private void launchEditView(int index) {
         FragmentManager fm = getFragmentManager();
+        editIndex = index;
         EditTodoItemDialog editItemDialog = EditTodoItemDialog.newInstance("Some Title");
-        editItemDialog.itemString = aTodoItems.getItem(index).getBody();
+        editItemDialog.item = aTodoItems.getItem(index);
         editItemDialog.show(fm, "fragment_edit_item");
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == EDIT_ITEM_CODE) {
-//            TodoItem item = data.getExtras().getString("item");
-//            todoItems.set(editIndex, item);
-//            aTodoItems.notifyDataSetChanged();
-//            db.updateTodoItem(item);
-        }
-    }
 
     private void readItems() {
-
         todoItems = new ArrayList<TodoItem>(db.getAllTodoItems());
     }
 
@@ -106,8 +95,12 @@ public class MainActivity extends ActionBarActivity implements EditTodoItemDialo
         }
     }
 
+    // Maybe better to have fragment change ToDo item model?
     @Override
-    public void onFinishEditTodoItemName(String itemName) {
-
+    public void onFinishEditTodoItemName(String itemName, int priority) {
+        TodoItem item = aTodoItems.getItem(editIndex);
+        item.setBody(itemName);
+        item.setPriority(priority);
     }
+
 }

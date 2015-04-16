@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by teddywyly on 4/15/15.
  */
 public class TodoItem implements Serializable {
+
     private static final long serialVersionUID = 5177222050535318633L;
     private int id;
     private String body;
