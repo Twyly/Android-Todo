@@ -81,8 +81,6 @@ public class MainActivity extends ActionBarActivity implements EditTodoItemDialo
         todoItems = new ArrayList<TodoItem>(db.getAllTodoItems());
     }
 
-
-
     public void onAddedItem(View view) {
         String text = etNewItem.getText().toString();
         if (text != null && !text.isEmpty()) {
@@ -101,6 +99,8 @@ public class MainActivity extends ActionBarActivity implements EditTodoItemDialo
         TodoItem item = aTodoItems.getItem(editIndex);
         item.setBody(itemName);
         item.setPriority(priority);
+        aTodoItems.notifyDataSetChanged();
+        db.updateTodoItem(item);
     }
 
 }

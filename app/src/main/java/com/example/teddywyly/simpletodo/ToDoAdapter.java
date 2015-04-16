@@ -48,15 +48,15 @@ public class ToDoAdapter extends ArrayAdapter<TodoItem> {
         switch (todoItem.getPriority()) {
             case 0:
                 viewHolder.rank.setText("Garfield Status");
-                convertView.setBackgroundColor(Color.LTGRAY);
+                convertView.setBackgroundColor(Color.rgb(187, 255, 0));
                 break;
             case 1:
                 viewHolder.rank.setText("Normal");
-                convertView.setBackgroundColor(Color.BLUE);
+                convertView.setBackgroundColor(Color.rgb(250, 255, 0));
                 break;
             case 2:
                 viewHolder.rank.setText("Do Now!");
-                convertView.setBackgroundColor(Color.RED);
+                convertView.setBackgroundColor(Color.rgb(255, 207, 0));
                 break;
             default:
                 viewHolder.rank.setText("Unknown");
