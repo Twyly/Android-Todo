@@ -10,6 +10,13 @@
     <style name="MyActionBar"
         parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/actionbar_background</item>
+        <item name="android:titleTextStyle">@style/CustomActionBarTheme.MyActionBar.TitleTextStyle</item>
         <!--<item name="android:textColor">@color/stdDarkBlueText</item>-->
     </style>
+
+    <style name="CustomActionBarTheme.MyActionBar.TitleTextStyle"
+        parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/SeaGreen</item>
+    </style>
+
 </resources>
