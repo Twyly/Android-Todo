@@ -1,5 +1,6 @@
 package com.example.teddywyly.simpletodo;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -23,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements EditTodoItemDialog.EditTodoItemDialogListener {
+public class MainActivity extends Activity implements EditTodoItemDialog.EditTodoItemDialogListener {
 
     private ArrayList<TodoItem> todoItems = new ArrayList<TodoItem>();
     private ToDoAdapter aTodoItems;
